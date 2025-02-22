@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <link rel="stylesheet" type="text/css" href="application.css">
+</head>
+<script src="application.js"></script>
+
+<body>
+    <div class="form-container">
+        <h2>Job Application Form</h2>
+        <form action="submit_application.php" id="myForm" method="POST" enctype="multipart/form-data">
+            <div id="personal-section">
+                <h3>Personal Details</h3>
+                <div class="personal-entry">
+                    <div class="form-group">
+                        <div class="name-label">
+                            <label for="first_name">First Name <z style="color:red;">*</z></label>
+                            <label for="last_name">Last Name <z style="color:red;">*</z></label>
+                        </div>
+                        <div class="name-group">
+                            <input type="text" id="first_name" name="first_name" placeholder="Enter your first name"
+                                oninput="validateFName()" required>
+
+                            <input type="text" id="last_name" name="last_name" placeholder="Enter your last name"
+                                oninput="validateLName()" required>
+                        </div>
+                        <div class="error-field">
+                            <span class="error" id="nameError1"></span>
+                            <span class="error" id="nameError2"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address <z style="color:red;">*</z></label>
+                        <input type="email" id="email" name="email" placeholder="example123@gmail.com"
+                            oninput="validateEmail()" required>
+                        <span class="error" id="emailError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number <z style="color:red;">*</z></label>
+                        <div class="phone-number">
+                            <div class="code">
+                                <select id="country_code" name="country_code" required>
+                                    <option value="" disabled selected>Code</option>
+                                    <option value="+91" selected>+91 (India)</option>
+                                    <!-- <option value="+1">+1 (Canada)</option>
+                                    <option value="+93">+93 (Afghanistan)</option>
+                                    <option value="+61">+61 (Australia)</option>
+                                    <option value="+55">+55 (Brazil)</option>
+                                    <option value="+86">+86 (China)</option>
+                                    <option value="+49">+49 (Germany)</option> -->
+                                </select>
+                            </div>
+                            <input type="text" id="phone" name="phone" pattern="[0-9]{10}" oninput="validatePhone()"
+                                required><br>
+                        </div>
+                        <span class="error" id="phoneError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender <z style="color:red;">*</z></label>
+                        <div class="gender-options">
+                            <label><input type="radio" name="gender" value="Male" required> Male</label>
+                            <label><input type="radio" name="gender" value="Female" required> Female</label>
+                            <label><input type="radio" name="gender" value="Other" required> Other</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="position">Position Applied For: <z style="color:red;">*</z></label>
+                    <select id="position" name="position" required>
+                        <option value="" disabled selected>Select a position</option>
+                        <option value="PHP/Wordpress Developer">PHP/Wordpress Developer</option>
+                        <option value="React/React Native Developer">React/React Native Developer</option>
+                        <option value="UI/UX Designer">UI/UX Designer</option>
+                        <option value="Software Tester">Software Tester</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience_type">Are you Fresher or Experienced? <z style="color:red;">*</z></label>
+                    <div>
+                        <label><input type="radio" id="fresher" name="experience_type" value="Fresher"
+                                onclick="toggleExperienceSection()" required>Fresher</label>
+                        <label><input type="radio" id="experienced" name="experience_type" value="Experienced"
+                                onclick="toggleExperienceSection()" required>Experienced</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="expected_salary">Expected Salary <z style="color:red;">*</z></label>
+                <input type="number" id="expected_salary" name="expected_salary" placeholder="Ex:- 15000/10000-20000"
+                    step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="start_date">Available Start Date <z style="color:red;">*</z></label>
+                <input type="date" id="start_date" name="start_date">
+            </div>
+
+            <div id="education-section">
+                <h3>Education
+                </h3>
+                <div class="education-entry">
+                    <label for="institute_name[]">Institute Name: <z style="color:red;">*</z></label>
+                    <input type="text" name="institute_name[]" placeholder="Ex:- KK Wagh" required><br>
+
+                    <label for="degree[]">Degree:</label>
+                    <input type="text" name="degree[]" placeholder="Ex:- BE, B.Tech, MSc, etc" required><br>
+
+                    <label for="location[]">School Location: <z style="color:red;">*</z></label>
+                    <input type="text" name="location[]" placeholder="Ex:- Nashik" required><br>
+
+                    <label for="description[]">Description:</label>
+                    <textarea name="description[]" rows="3"></textarea><br>
+
+                    <label for="from_date[]">From: <z style="color:red;">*</z></label>
+                    <input type="date" name="from_date[]" required>
+
+                    <label for="to_date[]">To:</label>
+                    <input type="date" name="to_date[]"><br>
+
+                    <label>
+                        I am currently attending <input type="checkbox" name="currently_attending[]"
+                            onclick="toggleEndDate(this)" value="1">
+                    </label>
+                </div>
+            </div>
+            <button type="button" onclick="addEducationField()">Add Another Education</button><br><br>
+
+            <div id="experience-section" class="highlighted-section" hidden>
+                <h3>Experience</h3>
+                <div class="experience-entry">
+                    <label for="experience_title[]">Designation:<z style="color:red;">*</z></label>
+                    <input type="text" id="experience_title[]" name="experience_title[]"
+                        placeholder="Ex:- Junior Developer" required><br>
+
+                    <label for="experience_company[]">Company: <z style="color:red;">*</z></label>
+                    <input type="text" id="experience_company[]" name="experience_company[]"
+                        placeholder="Ex:- Google, Microsoft, etc." required><br>
+
+                    <label for="experience_location[]">Location: <z style="color:red;">*</z></label>
+                    <input type="text" id="experience_location[]" name="experience_location[]"
+                        placeholder="Ex:- Nashik, USA, etc" required><br>
+
+                    <label for="experience_description[]">Description:</label>
+                    <textarea name="experience_description[]"></textarea><br>
+
+                    <label for="experience_from_date[]">From Date: <z style="color:red;">*</z></label>
+                    <input type="date" id="experience_from_date[]" name="experience_from_date[]" required><br>
+
+                    <label for="experience_to_date[]">To Date:</label>
+                    <input type="date" name="experience_to_date[]"><br>
+
+                    <label>
+                        I am currently working <input type="checkbox" name="currently_attending[]"
+                            onclick="toggleEndDate(this)" value="1">
+                    </label>
+                </div>
+            </div>
+            <button type="button" id="experience-button" onclick="addExperienceField()" hidden>Add Another
+                Experience</button>
+
+            <div class="form-group">
+                <label for="resume">Upload Resume <z style="color:red;">*</z></label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+            </div>
+            <div class="form-group">
+                <label for="linkedin">LinkedIn Profile</label>
+                <input type="url" id="linkedin" name="linkedin_profile">
+            </div>
+            <div class="form-group">
+                <label for="cover_letter">Cover Letter</label>
+                <textarea id="cover_letter" name="cover_letter" rows="4" placeholder="About yourself"></textarea>
+            </div>
+            <input type="submit" value="Submit Application">
+        </form>
+        <button onclick="window.location.href = '../index.html'">Home Page</button>
+    </div>
+</body>
+
+</html>
